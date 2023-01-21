@@ -7,38 +7,43 @@ import "./Expenses.css";
 
 const Expenses = (props) => {
   const [filteredYear, setFilteredYear] = useState("2020");
-  const onYearFilterHandeler = (year) => {
+  const yearFilterHandeler = (year) => {
     setFilteredYear(year);
     // const newFilterYear = year;
     // props.filteredYear(newFilterYear);
   };
+
+  //   const isYear = (expense) => {
+  //     if (filteredYear !== "Show All") {
+  //       return expense.props.date.getFullYear().toString() === filteredYear;
+  //     } else {
+  //       return true;
+  //     }
+
+  const filteredExpenses = props.item.filter((expense) => {
+    if (filteredYear !== "Show All") {
+      return expense.date.getFullYear().toString() === filteredYear;
+    } else {
+      return true;
+    }
+  });
+
+  let expensesContent = <p>No Expenses Found.</p>;
+
+  if (filteredExpenses.length > 0) {
+    expensesContent = filteredExpenses.map((x) => (
+      <ExpenseItem key={x.id} title={x.title} amount={x.amount} date={x.date} />
+    ));
+  }
+
   return (
     <div>
       <Card className="expenses">
         <ExpenseFilter
           defaultYear={filteredYear}
-          onYearFilter={onYearFilterHandeler}
+          onYearFilter={yearFilterHandeler}
         />
-        <ExpenseItem
-          title={props.item[0].title}
-          amount={props.item[0].amount}
-          date={props.item[0].date}
-        ></ExpenseItem>
-        <ExpenseItem
-          title={props.item[1].title}
-          amount={props.item[1].amount}
-          date={props.item[1].date}
-        ></ExpenseItem>
-        <ExpenseItem
-          title={props.item[2].title}
-          amount={props.item[2].amount}
-          date={props.item[2].date}
-        ></ExpenseItem>
-        <ExpenseItem
-          title={props.item[3].title}
-          amount={props.item[3].amount}
-          date={props.item[3].date}
-        ></ExpenseItem>
+        {expensesContent}
       </Card>
     </div>
   );
