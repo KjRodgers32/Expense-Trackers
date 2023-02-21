@@ -30,12 +30,11 @@ const DUMMY_EXPENSES = [
 const App = () => {
   const [array, setArray] = useState(DUMMY_EXPENSES);
 
-  const addExpenseHandler = (expense) => {
+  const addExpenseHandler = (newExpense) => {
     setArray((prevArray) => {
-      return [expense, ...prevArray];
+      return [newExpense, ...prevArray];
     });
   };
-
   const [filter, setFilter] = useState("");
 
   const addFilterYear = (year) => {
